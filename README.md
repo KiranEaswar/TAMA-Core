@@ -89,10 +89,10 @@ Once taught, she remembers it forever.
 
 | Week | Theme                         | Status    |
 |------|-------------------------------|-----------|
-| 1    | Symbolic Core + Memory        | ✅ complete |
-| 2    | Neural Matching + Mutation    | 🏗️ in progress |
-| 3    | Active Learning + Dialog Loop | ⏳ planned |
-| 4    | Full Autonomy & Optimization  | ⏳ planned |
+| 1    | Symbolic Core + Memory        | Complete |
+| 2    | Neural Matching + Mutation    | In progress |
+| 3    | Active Learning + Dialog Loop | Planned |
+| 4    | Full Autonomy & Optimization  | PSlanned |
 
 ---
 
