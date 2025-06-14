@@ -47,7 +47,7 @@ class CodeValidator:
             ast.Module, ast.FunctionDef, ast.arguments, ast.arg,
             ast.Return, ast.Expr, ast.Assign, ast.Load, ast.Store,
             ast.BinOp, ast.Call, ast.Name, ast.Constant, ast.List, 
-            ast.Tuple, ast.Dict, ast.If, ast.Compare, ast.For, 
+            ast.Tuple, ast.Dict, ast.If, ast.Compare, ast.For, ast.Pow, 
             ast.While, ast.Break, ast.Continue, ast.Pass, ast.UnaryOp, 
             ast.Attribute, ast.Subscript, ast.FormattedValue, ast.JoinedStr,
             ast.Add, ast.Sub, ast.Mult, ast.Div, ast.Mod, ast.Eq, ast.NotEq,
