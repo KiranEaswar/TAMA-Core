@@ -7,14 +7,14 @@
 |                                                                   |
 |    Author        : Gengai                                         |
 |    Created On    : 2025-06-14                                     |
-|    Version       : v1.1                                           |
+|    Version       : v1.2                                           |
 |                                                                   |
 |    Purpose       :                                                |
 |     - Parses user instructions via regex rules.                   |
 |     - Stores new prompts as symbolic specs when unknown.          |
 |     - Persists intent memory in SQLite database.                  |
 |     - Enables continual learning for TAMA's NLP understanding.    |
-|                                                                   |
+|     -                                                             |
 |    Usage         :                                                |
 |     parser = IntentParser()                                       |
 |     spec = parser.parse("Add two numbers")                        |
@@ -29,6 +29,8 @@ import re
 import sqlite3
 from typing import Dict
 from contextlib import contextmanager
+from matcher import IntentMatcher
+
 class IntentParser:
     def __init__(self,memdb:str = 'IntentVault.db'):
         self.rules = [
@@ -47,7 +49,7 @@ class IntentParser:
         ]
         self.memdb = memdb
         self._init_intmem()
-    
+        self.matcher = IntentMatcher()
     @contextmanager
     def _get_connection(self):
         conn = sqlite3.connect(self.memdb)
@@ -116,6 +118,14 @@ class IntentParser:
             match = re.search(pattern, text)
             if match:
                 return handler(match)
+        if self.matcher:
+            match = self.matcher.match(prompt)
+            if match:
+                similar_prompt, confidence = match
+                print(f"[MATCHER]Matched to the most similar prompt\n{similar_prompt}\n at a confidence rate of {confidence}")
+                spec = self._get_from_mem(similar_prompt)
+                if spec:
+                    return spec
         spec = self._ask_hubby(prompt)
         self._store_in_mem(text,spec)
         return spec
@@ -230,5 +240,6 @@ class IntentParser:
         }
         return number_map.get(text, None)
 
+#Example Usage
+print(IntentParser().parse("Find the square of x"))
 
-print(IntentParser().parse("Find cube of a number"))
