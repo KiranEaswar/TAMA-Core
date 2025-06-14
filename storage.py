@@ -63,7 +63,7 @@ class PatchStorage:
                     code TEXT NOT NULL,
                     created_at REAL DEFAULT (STRFTIME('%s','now')),
                     last_used REAL)''')
-    def store_patches(self,code: str,dependencies: list = None) -> str:
+    def store_patch(self,code: str,dependencies: list = None) -> str:
         fash = hashlib.sha256(code.encode()).hexdigest()
         with self._get_connection() as conn:
             conn.execute(
@@ -73,7 +73,7 @@ class PatchStorage:
                 (fash,','.join(dependencies) if dependencies else None,code)
             )
         return fash
-    def retrieve_patches(self, fash: str) -> Optional[Dict]:
+    def retrieve_patch(self, fash: str) -> Optional[Dict]:
         with self._get_connection() as conn:
             cursor = conn.execute('''
                 SELECT code, dependency
@@ -108,7 +108,7 @@ class StorageError(Exception):
 if __name__ == "__main__":
     storage = PatchStorage()
     sample_code = "def greet():\n    return 'Hello from TAMA!'"
-    patch_hash = storage.store_patches(sample_code, ['os'])
+    patch_hash = storage.store_patch(sample_code, ['os'])
     print(f"Stored patch with hash: {patch_hash}")
     print(f"Exists check: {storage.check_patch(patch_hash)}")
-    print(f"Retrieved patch: {storage.retrieve_patches(patch_hash)}")
+    print(f"Retrieved patch: {storage.retrieve_patch(patch_hash)}")
