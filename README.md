@@ -92,7 +92,7 @@ Once taught, she remembers it forever.
 | 1    | Symbolic Core + Memory        | Complete |
 | 2    | Neural Matching + Mutation    | In progress |
 | 3    | Active Learning + Dialog Loop | Planned |
-| 4    | Full Autonomy & Optimization  | PSlanned |
+| 4    | Full Autonomy & Optimization  | Planned |
 
 ---
 
