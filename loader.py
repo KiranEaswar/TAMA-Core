@@ -1,4 +1,29 @@
 # loader.py
+"""
+=====================================================================
+|    Module Name   : loader.py                                      |
+|    Description   : Dynamically loads code patches onto live       |
+|                    objects using introspection and storage hash.  |
+|                                                                   |
+|    Author        : Gengai                                         |
+|    Created On    : 2025-06-14                                     |
+|    Version       : v1.0                                           |
+|                                                                   |
+|    Purpose       :                                                |
+|     - Retrieves patch from storage using hash.                    |
+|     - Validates code safety using CodeValidator.                  |
+|     - Attaches the new method to a given instance.                |
+|                                                                   |
+|    Usage         :                                                |
+|     loader = PatchLoader(storage)                                 |
+|     loader.load_patch(bot_instance, patch_hash)                   |
+|                                                                   |
+|    Future Plans  :                                                |
+|     - Add rollback mechanism if patch fails.                      |
+|     - Support patch metadata and version control.                 |
+=====================================================================
+"""
+
 import types
 from validator import CodeValidator
 from storage import PatchStorage, StorageError
