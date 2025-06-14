@@ -51,7 +51,6 @@ class DynamicBot:
         # 3. Validate code
         is_valid, error_msg = self.validator.validate_code(code)
         if not is_valid:
-            print(self.personality.react("error"))
             print(f"[Validator] Code rejected: {error_msg}")
             return None
 
@@ -69,10 +68,10 @@ class DynamicBot:
         func_name = spec['name']
         func = getattr(self, func_name, None)
         if func:
-            print(f"[Bot] Executing '{func_name}' with args {args}")
+            print(f"[TAMA] Executing '{func_name}' with args {args}")
             return func(*args, **kwargs)
         else:
-            print(f"[Bot] Function '{func_name}' not found after loading.")
+            print(f"[TAMA] Function '{func_name}' not found after loading.")
             return None
 
 # Example usage
@@ -83,4 +82,6 @@ if __name__ == "__main__":
     result = bot.learn_and_execute("Create a function to sort a list", [4, 2, 1])
     print("Result:", result)
     result = bot.learn_and_execute("Divide two numbers",16,4)
+    print("Result:", result)
+    result = bot.learn_and_execute("What is x times x",30)
     print("Result:", result)
