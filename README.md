@@ -1,15 +1,15 @@
-# 🤖 TAMA: Tuned Autonomous Modular Assistant
+# TAMA: Tuned Autonomous Modular Assistant
 
 **TAMA** is a self-learning Python agent capable of transforming natural language instructions into executable functions. Designed to grow from basic symbolic reasoning to neural generalization and mutation-based learning.
 
 ---
 
-## 📦 Current Version: `v1.0`
+## Current Version: `v1.0`
 > Core features built and tested through **Week 1** of the learning roadmap.
 
 ---
 
-## 🧠 What Can TAMA Do?
+## What Can TAMA Do?
 
 - Understand and parse symbolic intents from English prompts
 - Generate Python function code with arguments and logic
@@ -20,7 +20,7 @@
 
 ---
 
-## 🧱 Architecture Overview
+## Architecture Overview
 
 ```
 User Prompt
@@ -36,7 +36,7 @@ Execution
 
 ---
 
-## 🗂️ Modules
+## Modules
 
 ### `nlp.py` — Intent Parser
 - Extracts structured function specs from natural language
@@ -68,7 +68,7 @@ Execution
 
 ---
 
-## 🧪 Example Usage
+## Example Usage
 
 ```python
 bot = DynamicBot()
@@ -85,7 +85,7 @@ Once taught, she remembers it forever.
 
 ---
 
-## 📘 Learning Roadmap
+## Learning Roadmap
 
 | Week | Theme                         | Status    |
 |------|-------------------------------|-----------|
@@ -96,14 +96,14 @@ Once taught, she remembers it forever.
 
 ---
 
-## 📂 Databases
+## Databases
 
 - `PatchVault.db`: stores all generated code + metadata
 - `IntentVault.db`: stores `prompt → spec` mappings
 
 ---
 
-## 🚧 Coming Soon (Week 2)
+## Coming Soon (Week 2)
 
 - `matcher.py`: neural intent matcher using MiniLM embeddings
 - `mutation.py`: AST-based patch mutator for self-rewriting
