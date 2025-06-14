@@ -1,4 +1,28 @@
-# bot.py
+# core.py
+"""
+=====================================================================
+|    Module Name   : core.py                                        |
+|    Description   : Main orchestrator for TAMA. Coordinates intent |
+|                    parsing, code generation, validation, loading. |
+|                                                                   |
+|    Author        : Gengai                                         |
+|    Created On    : 2025-06-14                                     |
+|    Version       : v1                                             |
+|                                                                   |
+|    Purpose       :                                                |
+|     - Takes natural language and turns it into functional code.   |
+|     - Stores patches, attaches them, and executes on the fly.     |
+|     - Represents TAMA's brain in execution context.               |
+|                                                                   |
+|    Usage         :                                                |
+|     bot = DynamicBot()                                            |
+|     bot.learn_and_execute("add two numbers", 1, 2)                |
+|                                                                   |
+|    Future Plans  :                                                |
+|     - Add intent retry strategies.                                |
+|     - Integrate mutation, embedding matcher, memory introspection.|
+=====================================================================
+"""
 from storage import PatchStorage
 from loader import PatchLoader
 from validator import CodeValidator
