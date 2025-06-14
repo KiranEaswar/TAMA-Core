@@ -38,7 +38,7 @@ class PatchLoader:
         Loads a patch from storage and attaches it to the given object.
         Returns True if successful, False otherwise.
         """
-        patch = self.storage.get_patch(func_hash)
+        patch = self.storage.retrieve_patch(func_hash)
         if not patch:
             print(f"No patch found for hash: {func_hash}")
             return False
