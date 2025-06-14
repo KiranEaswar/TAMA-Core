@@ -1,8 +1,36 @@
+#nlp.py
+"""
+=====================================================================
+|    Module Name   : nlp.py                                         |
+|    Description   : TAMA's symbolic intent parser with memory      |
+|                    via IntentVault (SQLite-based intent DB).      |
+|                                                                   |
+|    Author        : Gengai                                         |
+|    Created On    : 2025-06-14                                     |
+|    Version       : v1.1                                           |
+|                                                                   |
+|    Purpose       :                                                |
+|     - Parses user instructions via regex rules.                   |
+|     - Stores new prompts as symbolic specs when unknown.          |
+|     - Persists intent memory in SQLite database.                  |
+|     - Enables continual learning for TAMA's NLP understanding.    |
+|                                                                   |
+|    Usage         :                                                |
+|     parser = IntentParser()                                       |
+|     spec = parser.parse("Add two numbers")                        |
+|                                                                   |
+|    Future Plans  :                                                |
+|     - Integrate embedding-based matcher (IntentMatcher)           |
+|     - Add mutation engine for adaptive rewriting                  |
+|     - Support multi-intent classification and learning loops      |
+=====================================================================
+"""
 import re
+import sqlite3
 from typing import Dict
-
+from contextlib import contextmanager
 class IntentParser:
-    def __init__(self):
+    def __init__(self,memdb:str = 'IntentVault.db'):
         self.rules = [
             (r'(add|sum)\s+(?:(\w+)\s+)?numbers?', self._handle_addition),
             (r'(subtract)\s+(?:(\w+)\s+)?numbers?', self._handle_subtraction),
@@ -17,14 +45,83 @@ class IntentParser:
             (r'lowercase\s+string', self._handle_lowercase),
             (r'check\s+if\s+equal',self._handle_check_equality)
         ]
+        self.memdb = memdb
+        self._init_intmem()
+    
+    @contextmanager
+    def _get_connection(self):
+        conn = sqlite3.connect(self.memdb)
+        try:
+            yield conn
+            conn.commit()
+        except Exception as e:
+            conn.rollback()
+            raise StorageError(f"Database operation failed: {str(e)}")
+        finally:
+            conn.close()
+    
+    def _init_intmem(self):
+        with self._get_connection() as conn:
+            conn.execute('''
+                CREATE TABLE IF NOT EXISTS IntentVault (
+                    prompt TEXT PRIMARY KEY,
+                    name TEXT,
+                    args TEXT,
+                    body TEXT
+                )
+            ''')
+
+    def _get_from_mem(self,prompt:str)->Dict:
+        with self._get_connection() as conn:
+            cursor = conn.execute('''
+                SELECT name,args,body FROM IntentVault WHERE prompt = ?''',(prompt,))
+            row = cursor.fetchone()
+            if row:
+                return {
+                    'name':row[0],
+                    'args':row[1].split(',') if row[1] else [],
+                    'body':row[2]
+                }
+
+    def _store_in_mem(self,prompt:str,spec: Dict)->Dict:
+        with self._get_connection() as conn:
+            conn.execute('''
+                INSERT OR IGNORE INTO IntentVault 
+                (prompt, name, args, body) VALUES
+                (?,?,?,?)''',(prompt, spec['name'], ','.join(spec['args']),spec['body'])
+            )
+
+    def _ask_hubby(self, prompt:str) -> Dict:
+        print(f"TAMA: Hey Gengai, not sure how to perform this task, mind showing me how?\n{prompt}")
+        name = input('Function Name:').strip()
+        args = input('Arguments Required:').strip().split()
+        body = input('Body of the function[use \\n for another line]')
+        return {
+            'name':name,
+            'args':args,
+            'body':body
+        }
+    
+    def list_intents(self):
+        with self._get_connection() as conn:
+            for row in conn.execute("SELECT prompt, name, args FROM IntentVault"):
+                print(f"[Intent] {row[0]} → {row[1]}({row[2]})")
+
     def parse(self, prompt: str) -> Dict:
         text = self._preprocess(prompt)
+        learned = self._get_from_mem(text)
+        if learned:
+            return learned
         for pattern, handler in self.rules:
             match = re.search(pattern, text)
             if match:
                 return handler(match)
-        return self._handle_fallback(prompt)
+        spec = self._ask_hubby(prompt)
+        self._store_in_mem(text,spec)
+        return spec
     
+
+
     def _preprocess(self, prompt: str) -> str:
         prompt = prompt.lower().strip()
         text = re.sub(r'[^\w\s]', '', prompt)
@@ -134,10 +231,4 @@ class IntentParser:
         return number_map.get(text, None)
 
 
-print(IntentParser().parse("Add two numbers"))
-print(IntentParser().parse("Sum 3 numbers"))
-print(IntentParser().parse("Add numbers"))
-print(IntentParser().parse("Multiply numbers")) 
-print(IntentParser().parse("Multiply three numbers"))
-print(IntentParser().parse("Product four numbers"))
-print(IntentParser().parse("Multiply numbers"))
+print(IntentParser().parse("Find cube of a number"))
