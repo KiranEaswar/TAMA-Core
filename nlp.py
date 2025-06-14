@@ -122,7 +122,7 @@ class IntentParser:
             match = self.matcher.match(prompt)
             if match:
                 similar_prompt, confidence = match
-                print(f"[MATCHER]Matched to the most similar prompt\n{similar_prompt}\n at a confidence rate of {confidence}")
+                print(f"[MATCHER]Matched to the most similar prompt '{similar_prompt}' at a confidence rate of {confidence}")
                 spec = self._get_from_mem(similar_prompt)
                 if spec:
                     return spec
