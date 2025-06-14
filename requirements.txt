@@ -1,3 +1,8 @@
-nltk>=3.8.1
-pytest>=7.0.0
-flake8>=6.0.0
+# Core for neural matching
+sentence-transformers==2.6.1
+transformers==4.41.1
+torch>=2.0.0,<3.0.0
+
+# Similarity computation
+scikit-learn==1.4.2
+numpy==1.26.4
