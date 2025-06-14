@@ -7,7 +7,7 @@
 |                                                                   |
 |    Author        : Gengai                                         |
 |    Created On    : 2025-06-14                                     |
-|    Version       : v1                                             |
+|    Version       : v1.0                                           |
 |                                                                   |
 |    Purpose       :                                                |
 |     - Takes natural language and turns it into functional code.   |
