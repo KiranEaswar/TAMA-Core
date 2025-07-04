@@ -102,8 +102,4 @@ Once taught, she remembers it forever.
 
 ---
 
-## Coming Soon (Week 2)
 
-- `matcher.py`: neural intent matcher using MiniLM embeddings
-- `mutation.py`: AST-based patch mutator for self-rewriting
-- Fallback logic with similarity matching
