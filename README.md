@@ -5,7 +5,6 @@
 ---
 
 ## Current Version: `v1.0`
-> Core features built and tested through **Week 1** of the learning roadmap.
 
 ---
 
