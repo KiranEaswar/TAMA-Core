@@ -6,5 +6,5 @@ if __name__ == "__main__":
     generator = NACJAC_Generator(config)
 
     print("\n=== NACJAC OUTPUT ===")
-    output = generator.generate_text("Doesn't Hemantha suck? ")
+    output = generator.generate_text("This is fine, probably!")
     print(output)
