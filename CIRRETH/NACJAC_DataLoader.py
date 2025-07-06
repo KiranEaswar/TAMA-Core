@@ -1,5 +1,3 @@
-#CIRRETH _ DATALOADER
-
 import torch
 from NACJAC_configurator import NACJAC_Config
 from NACJAC_tokeniser import NACJAC_Tokeniser
