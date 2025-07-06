@@ -4,13 +4,14 @@ import torch
 class NACJAC_Tokeniser:
     def __init__(self,config):
         self.vocab_path = config.vocab_path
+        self.datapath = config.current_datapath
         self.stoi = {}
         self.itos = {}
 
         if os.path.exists(self.vocab_path):
             self._load_vocab()
         else:
-            self._build_vocab(config.vocab_path)
+            self._build_vocab(config.datapath)
             self._save_vocab()
         
     def _build_vocab(self, filepath):
